@@ -1,0 +1,52 @@
+#body {
+    /* background-color: rgb(192, 95, 4); */
+    background-color: rgb(27, 26, 26);
+}
+
+#del_btn {
+    background-color: rgb(238, 106, 106);
+    color: black;
+}
+
+#range_btn {
+    background-color: rgb(105, 212, 16);
+    border-color: brown;
+}
+
+#browse_btn {
+    background-color: rgb(141, 171, 236);
+}
+
+#comboBox {
+    background-color: rgb(185, 201, 238);
+}
+
+#menubar {
+    size: 10px;
+    background-color: rgb(27, 26, 26);
+}
+
+
+#ok_btn {
+    background-color: limegreen;
+    color: black;
+
+}
+
+#path_label,
+#ex_label,
+#rgn_mde_label,
+#checkBox,
+#menubar {
+    color: white;
+}
+
+#menubar:hover {
+    background-color: rgb(0, 0, 0);
+}
+
+#menubar::item:selected {
+    color: black;
+
+    color: rgb(66, 65, 65)
+}
