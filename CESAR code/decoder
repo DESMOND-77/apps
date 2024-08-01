@@ -1,0 +1,42 @@
+import string
+from random import choice
+
+
+def decaler_mot(mot, decalag, ope):
+    alphabet = string.ascii_lowercase
+    nouveau_mot = ''
+
+    for lettre in mot:
+        if lettre in alphabet:
+            index = 0
+            if ope == "decrypt":
+                index = (alphabet.index(lettre) - decalag) % 26
+            elif ope == "crypt":
+                index = (alphabet.index(lettre) + decalag) % 26
+
+            nouveau_mot += alphabet[index]
+
+        else:
+            nouveau_mot += lettre
+
+    return nouveau_mot
+
+
+m = "fsrnsyv pi qsrhi!"
+mo1 = "pmryb iwx tvexmuyi"
+mo = "bonjour le monde!"
+decalage = 4
+mot_decale = decaler_mot(m, decalage, "decrypt")
+
+
+def password():
+    carac = string.ascii_letters + string.digits + string.punctuation
+    le = len(carac)
+    pass_len = [6, 7, 8, 12, 14]
+    pswd = ""
+    for i in range(choice(pass_len)):
+        pswd += carac[choice(range(0, len(carac) - 1))]
+    return pswd
+
+
+print(password())
