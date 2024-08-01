@@ -164,11 +164,11 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
             match self.comboBox.currentText():
                 case "Range by extension":
                     for file in files:
-                        if os.path.isfile(file):  # verifie si si il s'agit d'un fichier
+                        if os.path.isfile(file):  # Check if it is a file
                             extension = file.split(".")[-1]
                             subpath = os.path.join(self.directory, extension)
                             if os.path.exists(os.path.join(subpath,
-                                                           file)):  # si le fichier n'existe pas dans le dossier destinataire
+                                                           file)):  # if the file does not exist in the destination folder
                                 send2trash(file)
                             else:
                                 if os.path.exists(extension):
@@ -189,10 +189,10 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
                                 filename = file[:-len(extension) - 1]
                                 subpath = self.directory + "/" + name_pattern
                                 if os.path.exists(os.path.join(subpath,
-                                                               file)):  # si le fichier n'existe pas dans le dossier destinataire
+                                                               file)):  # if the file does not exist in the destination folder
                                     send2trash(file)
                                 else:
-                                    if name_pattern.upper() in filename.upper():  # verifie si si il s'agit d'un fichier
+                                    if name_pattern.upper() in filename.upper():  # Check if it is a file
                                         if os.path.exists(name_pattern):
                                             shutil.move(file, subpath)
                                         else:
