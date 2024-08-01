@@ -88,18 +88,7 @@ class Ui_RangeWindow(object):
         RangeWindow.setTabOrder(self.lineEdit, self.browse_btn)
         RangeWindow.setTabOrder(self.browse_btn, self.comboBox)
 
-    def retranslateUi(self, RangeWindow):
-        _translate = QtCore.QCoreApplication.translate
-        RangeWindow.setWindowTitle(_translate("RangeWindow", "File ranger"))
-        self.browse_btn.setText(_translate("RangeWindow", "Browse"))
-        self.range_btn.setText(_translate("RangeWindow", "RANGE"))
-        self.name_pat_label.setText(_translate("RangeWindow", "Name pattern"))
-        self.rgn_mde_label.setText(_translate("RangeWindow", "Range mode"))
-        self.path_label.setText(_translate("RangeWindow", "Folder path"))
 
-        self.menufile.setTitle(_translate("RangeWindow", "File"))
-        self.actionOpen.setText(_translate("RangeWindow", "Open"))
-        self.actionQuit.setText(_translate("RangeWindow", "Quit"))
 
 
 class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
