@@ -18,7 +18,7 @@ class Ui_RangeWindow(object):
         RangeWindow.setMaximumSize(QtCore.QSize(412, 225))
         RangeWindow.setAcceptDrops(False)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("assets/favicon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("assets/favico.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         RangeWindow.setWindowIcon(icon)
         RangeWindow.setWindowOpacity(1.0)
         self.centralwidget = QtWidgets.QWidget(RangeWindow)
@@ -48,7 +48,7 @@ class Ui_RangeWindow(object):
         self.gridLayout.addWidget(self.comboBox, 3, 0, 3, 2)
 
         self.name_pat_label = QtWidgets.QLabel(self.centralwidget)
-        self.name_pat_label.setEnabled(True)
+        self.name_pat_label.setEnabled(True
         self.name_pat_label.setAlignment(QtCore.Qt.AlignCenter)
         self.name_pat_label.setObjectName("name_pat_label")
         self.gridLayout.addWidget(self.name_pat_label, 6, 1, 1, 1)
@@ -76,7 +76,7 @@ class Ui_RangeWindow(object):
         self.actionOpen = QtWidgets.QAction(RangeWindow)
         self.actionOpen.setObjectName("actionOpen")
 
-        self.actionQuit = QtWidgets.QAction(RangeWindow)
+        self.actionQuit = QtWidgets.QAcion(RangeWindow)
         self.actionQuit.setObjectName("actionQuit")
 
         self.menufile.addAction(self.actionOpen)
@@ -106,7 +106,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
         self.comboBox.currentIndexChanged.connect(self.on_combobox_changed)
 
         self.browse_btn.clicked.connect(self.get_dir)
-        self.range_btn.clicked.connect(self.ranger)
+        self.range_btn.clicked.connect(elf.ranger)
 
         self.name_pat_label.setEnabled(False)
         self.name_pat.setEnabled(False)
@@ -114,7 +114,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
         self.name_pat_label.setStyleSheet("color: rgb(66, 65, 65);")
 
         self.name_pat.textChanged.connect(lambda: self.warning_empty(element=self.name_pat))
-        self.lineEdit.textChanged.connect(lambda: self.warning_empty(element=self.lineEdit))
+        self.lineEdit.txtChanged.connect(lambda: self.warning_empty(element=self.lineEdit))
 
         self.actionQuit.triggered.connect(self.close)
         self.actionOpen.triggered.connect(self.get_dir)
@@ -132,10 +132,10 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
 
         else:
             self.name_pat_label.setEnabled(False)
-            self.name_pat_label.setStyleSheet("color: rgb(66, 65, 65);")
+            self.name_pt_label.setStyleSheet("color: rgb(66, 65, 65);")
             self.name_pat.setText("")
             self.name_pat.setEnabled(False)
-            self.name_pat.setStyleSheet("background-color: rgb(66, 65, 65);\nborder-style: none;")
+            self.name_pat.setStyleSeet("background-color: rgb(66, 65, 65);\nborder-style: none;")
 
     def get_dir(self):
         self.directory = QFileDialog.getExistingDirectory(self)
@@ -165,7 +165,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
                                 else:
                                     os.mkdir(extension)
                                     shutil.move(file, subpath)
-                                counter += 1
+                                couter += 1
 
                 case "Range by name":
                     if not self.name_pat.text() or self.name_pat.text().isspace():
@@ -187,7 +187,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
                                         else:
                                             os.mkdir(name_pattern)
                                             shutil.move(file, subpath)
-                                        counter += 1
+                                        conter += 1
             self.pop_message(typ=QMessageBox.Information,
                              text=f"Opération effectue, {counter} fichier(s) ont été ranger avec succès")
 
@@ -204,7 +204,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
         if not element.text():
             element.setStyleSheet("border: 2px solid red;")
         else:
-            element.setStyleSheet("border: 1px solid black;")
+            element.setStyleSheet("border: px solid black;")
 
     def pop_message(self, typ, text=""):
         msg = QMessageBox()
@@ -216,11 +216,11 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
 
     def goto_main_window(self):
         self.switch_main_win.emit()
-        self.close()
+        self.cloe()
 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    ui = RangeWndow()
+    ui = RangeWdow()
     ui.show()
     sys.exit(app.exec_())
