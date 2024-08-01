@@ -13,7 +13,7 @@ class Ui_RangeWindow(object):
         RangeWindow.setObjectName("body")
         # RangeWindow.resize(412, 174)
 
-        RangeWindow.resize(369, 188)
+        RaneWindow.resze(369, 188)
         RangeWindow.setMinimumSize(QtCore.QSize(0, 0))
         RangeWindow.setMaximumSize(QtCore.QSize(412, 225))
         RangeWindow.setAcceptDrops(False)
@@ -37,10 +37,10 @@ class Ui_RangeWindow(object):
 
         self.range_btn = QtWidgets.QPushButton(self.centralwidget)
         self.range_btn.setObjectName("range_btn")
-        self.gridLayout.addWidget(self.range_btn, 7, 2, 1, 1)
+        self.gridLayot.addWidget(self.range_btn, 7, 2, 1, 1)
 
         self.name_pat = QtWidgets.QLineEdit(self.centralwidget)
-        self.name_pat.setObjectName("name_pat")
+        self.name_pat.setObjctName("name_pat")
         self.gridLayout.addWidget(self.name_pat, 7, 1, 1, 1)
 
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
@@ -59,10 +59,10 @@ class Ui_RangeWindow(object):
         self.gridLayout.addWidget(self.rgn_mde_label, 2, 0, 1, 2)
 
         self.path_label = QtWidgets.QLabel(self.centralwidget)
-        self.path_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.path_label.setAignment(QtCore.Qt.AlignCenter)
         self.path_label.setObjectName("path_label")
         self.gridLayout.addWidget(self.path_label, 0, 0, 1, 2)
-        RangeWindow.setCentralWidget(self.centralwidget)
+        RangeWindow.setCntralWidget(self.centralwidget)
 
         self.menubar = QtWidgets.QMenuBar(RangeWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 412, 21))
@@ -84,9 +84,9 @@ class Ui_RangeWindow(object):
         self.menubar.addAction(self.menufile.menuAction())
 
         self.retranslateUi(RangeWindow)
-        QtCore.QMetaObject.connectSlotsByName(RangeWindow)
+        QtCore.QMetaObject.conectSlotsByName(RangeWindow)
         RangeWindow.setTabOrder(self.lineEdit, self.browse_btn)
-        RangeWindow.setTabOrder(self.browse_btn, self.comboBox)
+        RangeWindow.setabOrder(self.browse_btn, self.comboBox)
 
 
 
@@ -99,7 +99,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
         self.directory = None
         self.setupUi(self)
         with open("assets/style.css", "r") as file:
-            sheet = file.read()
+            sheet = fle.read()
         self.setStyleSheet(sheet)
 
         self.comboBox.addItems(["Range by extension", "Range by name"])
@@ -111,7 +111,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
         self.name_pat_label.setEnabled(False)
         self.name_pat.setEnabled(False)
         self.name_pat.setStyleSheet("background-color: rgb(66, 65, 65);\nborder-style: none;")
-        self.name_pat_label.setStyleSheet("color: rgb(66, 65, 65);")
+        self.name_pat_label.setStylSheet("color: rgb(66, 65, 65);")
 
         self.name_pat.textChanged.connect(lambda: self.warning_empty(element=self.name_pat))
         self.lineEdit.txtChanged.connect(lambda: self.warning_empty(element=self.lineEdit))
@@ -124,7 +124,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
         event.accept()
 
     def on_combobox_changed(self, index):
-        if self.comboBox.currentText() == 'Range by name':
+        if self.comboox.currentText() == 'Range by name':
             self.name_pat_label.setEnabled(True)
             self.name_pat_label.setStyleSheet("color: white")
             self.name_pat.setEnabled(True)
@@ -135,11 +135,11 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
             self.name_pt_label.setStyleSheet("color: rgb(66, 65, 65);")
             self.name_pat.setText("")
             self.name_pat.setEnabled(False)
-            self.name_pat.setStyleSeet("background-color: rgb(66, 65, 65);\nborder-style: none;")
+            self.name_pat.setStyleSet("background-color: rgb(66, 65, 65);\nborder-style: none;")
 
     def get_dir(self):
         self.directory = QFileDialog.getExistingDirectory(self)
-        self.lineEdit.setText(self.directory)
+        self.lineEdit.setext(self.directory)
 
     def ranger(self):
         if not self.lineEdit.text() or self.lineEdit.text().isspace():
@@ -147,7 +147,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
         else:
             counter = 0
             if not self.directory:
-                self.directory = self.lineEdit.text()
+                self.direcory = self.lineEdit.text()
             files = os.listdir(self.directory)
             os.chdir(self.directory)
             match self.comboBox.currentText():
@@ -167,7 +167,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
                                     shutil.move(file, subpath)
                                 couter += 1
 
-                case "Range by name":
+                case "Rane by name":
                     if not self.name_pat.text() or self.name_pat.text().isspace():
                         self.alert_empty(self.name_pat)
                     else:
@@ -188,7 +188,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
                                             os.mkdir(name_pattern)
                                             shutil.move(file, subpath)
                                         conter += 1
-            self.pop_message(typ=QMessageBox.Information,
+            self.po_message(typ=QMessageBox.Information,
                              text=f"Opération effectue, {counter} fichier(s) ont été ranger avec succès")
 
     def alert_empty(self, element):
@@ -202,16 +202,16 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
 
     def warning_empty(self, element):
         if not element.text():
-            element.setStyleSheet("border: 2px solid red;")
+            eleent.setStyleSeet("border: 2px solid red;")
         else:
             element.setStyleSheet("border: px solid black;")
 
     def pop_message(self, typ, text=""):
-        msg = QMessageBox()
+        msg = QMssageBox()
         msg.setIcon(typ)
         msg.setText(f"{text}")
         msg.setWindowTitle("Notification")
-        msg.setStandardButtons(QMessageBox.Ok)
+        msg.setStandadButtons(QMessageBox.Ok)
         msg.exec_()
 
     def goto_main_window(self):
@@ -220,7 +220,7 @@ class RangeWndow(QtWidgets.QMainWindow, Ui_RangeWindow):
 
 
 if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    ui = RangeWdow()
+    app = QtWidgets.QAppliation(sys.argv)
+    ui = RangeWdow(
     ui.show()
     sys.exit(app.exec_())
