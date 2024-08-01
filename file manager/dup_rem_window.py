@@ -71,17 +71,7 @@ class Ui_dup_del_Window(object):
         self.retranslateUi(dup_del_Window)
         QtCore.QMetaObject.connectSlotsByName(dup_del_Window)
 
-    def retranslateUi(self, dup_del_Window):
-        _translate = QtCore.QCoreApplication.translate
-        dup_del_Window.setWindowTitle(_translate("dup_del_Window", "Duplicated file remover"))
-        self.path_label.setText(_translate("dup_del_Window", "Folder path"))
-        self.browse_btn.setText(_translate("dup_del_Window", "Browse"))
-        self.checkBox.setText(_translate("dup_del_Window", "Use pattern"))
-        self.pattern_label.setText(_translate("dup_del_Window", "Pattern"))
-        self.del_btn.setText(_translate("dup_del_Window", "DELETE"))
-        self.menuFile.setTitle(_translate("dup_del_Window", "File"))
-        self.actionOpen.setText(_translate("dup_del_Window", "Open"))
-        self.actionQuit.setText(_translate("dup_del_Window", "Quit"))
+
 
 
 class Del_dbles(QtWidgets.QMainWindow, Ui_dup_del_Window):
