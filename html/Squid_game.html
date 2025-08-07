@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Squid Game - Pont de Verre Personnalisé</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .fall {
+      animation: fall 0.6s ease-in forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(300px);
+        opacity: 0;
+      }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
+    .tile-number {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .selected-safe {
+      position: relative;
+      box-shadow: 0 0 0 3px #10B981;
+    }
+
+    .broken-glass {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .broken-glass::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(45deg,
+          rgba(255, 255, 255, 0.4) 0px,
+          rgba(255, 255, 255, 0.4) 2px,
+          transparent 2px,
+          transparent 6px);
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body class="flex flex-col items-center justify-center min-h-screen bg-gray-900 p-4">
+  <div class="max-w-4xl w-full">
+    <h1 class="text-3xl md:text-4xl font-bold text-center text-red-500 mb-2">
+      <i class="fas fa-gamepad mr-2"></i>SQUID GAME - PONT DE VERRE
+    </h1>
+    <p class="text-gray-400 text-center mb-6">Personnalisez les tuiles sûres puis jouez !</p>
+
+    <div class="flex flex-col md:flex-row gap-6 mb-8">
+      <!-- Configuration des tuiles sûres -->
+      <div class="bg-gray-800 p-6 rounded-lg shadow-lg flex-1">
+        <h2 class="text-xl font-bold text-white mb-4">
+          <i class="fas fa-cog mr-2 text-blue-400"></i>Configuration
+        </h2>
+
+        <div class="mb-4">
+          <label class="block text-gray-300 mb-2">Sélectionnez les tuiles sûres (1-8):</label>
+          <div class="flex flex-wrap gap-2">
+            <!-- Les cases à cocher seront générées dynamiquement -->
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <button id="startGame"
+            class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition transform hover:scale-105">
+            <i class="fas fa-play mr-2"></i>COMMENCER LE JEU
+          </button>
+        </div>
+
+        <div class="mt-6 bg-gray-900 p-4 rounded-lg">
+          <h3 class="font-bold text-gray-300 mb-2">
+            <i class="fas fa-info-circle mr-2 text-yellow-400"></i>Instructions:
+          </h3>
+          <ul class="text-gray-400 text-sm space-y-1">
+            <li>• Sélectionnez les tuiles sûres (1 à 8)</li>
+            <li>• Cliquez sur "Commencer le jeu"</li>
+            <li>• Survolez les tuiles pour voir leur numéro</li>
+            <li>• Cliquez sur les tuiles pour tester</li>
+            <li>• Les tuiles sûres restent, les autres cassent</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Affichage de la grille de jeu -->
+      <div class="flex-1">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+          <h2 class="text-xl font-bold text-white mb-4">
+            <i class="fas fa-glass-martini-alt mr-2 text-pink-500"></i>Le Pont
+          </h2>
+          <div class="flex justify-center">
+            <div id="grid" class="grid grid-rows-9 grid-cols-6 gap-1 relative">
+              <!-- Généré dynamiquement -->
+            </div>
+          </div>
+
+          <div class="mt-4 flex justify-center">
+            <div class="flex items-center">
+              <div class="w-4 h-4 bg-pink-500 mr-2"></div>
+              <span class="text-gray-400 text-sm mr-4">Tuile de verre</span>
+              <div class="w-4 h-4 bg-green-500 mr-2"></div>
+              <span class="text-gray-400 text-sm">Tuile sûre</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Éléments DOM
+    const grid = document.getElementById('grid');
+    const safeTilesContainer = document.querySelector('.flex-wrap');
+    const startButton = document.getElementById('startGame');
+
+    // Configuration
+    let gameStarted = false;
+    let safeTileNumbers = [1, 5, 10, 13]; // Par défaut : 1,3,5,8
+
+    // Créer les cases à cocher pour les tuiles sûres
+    for (let i = 1; i <= 14; i++) {
+      const checkbox = document.createElement('div');
+      checkbox.className = 'flex items-center';
+      checkbox.innerHTML = `
+        <input 
+          type="checkbox" 
+          id="tile-${i}" 
+          value="${i}" 
+          ${safeTileNumbers.includes(i) ? 'checked' : ''}
+          class="h-5 w-5 text-green-500 rounded focus:ring-green-400"
+        >
+        <label for="tile-${i}" class="ml-2 text-gray-300">${i}</label>
+      `;
+      safeTilesContainer.appendChild(checkbox);
+    }
+
+    // Génération dynamique du tableau
+    for (let row = 8; row >= 0; row--) {
+      for (let col = 0; col < 6; col++) {
+        const tile = document.createElement('div');
+        tile.classList.add('w-12', 'h-12', 'md:w-16', 'md:h-16', 'flex', 'items-center',
+          'justify-center', 'text-white', 'font-bold', 'relative');
+
+        // Calcul du numéro de tuile (pour les tuiles de verre)
+        const tileNumber = (row - 1) * 2 + (col - 2) + 1;
+        const isGlassTile = (col === 2 || col === 3) && (row >= 1 && row <= 7);
+
+        if (isGlassTile) {
+          tile.dataset.tileNumber = tileNumber;
+          // tile.classList.add('mx-2');
+          // Alterner les couleurs (rose/noir) en partant du bas
+          if ((3 - row) % 2 === 0) {
+            tile.classList.add('cursor-pointer', 'bg-pink-500', 'hover:bg-pink-400', 'transition-colors');
+            tile.dataset.type = 'glass';
+          } else {
+            tile.classList.add('bg-black');
+            tile.dataset.type = 'glass';
+          }
+
+
+
+          // Ajout du numéro de tuile
+          const numberBadge = document.createElement('span');
+          numberBadge.className = 'tile-number';
+          numberBadge.textContent = tileNumber;
+          tile.appendChild(numberBadge);
+
+          // Gestion du clic
+          tile.addEventListener('click', () => {
+            if (!gameStarted || tile.dataset.clicked === 'true') return;
+
+            tile.dataset.clicked = 'true';
+            const isSafe = safeTileNumbers.includes(parseInt(tileNumber));
+
+            if (isSafe) {
+              tile.textContent = 'OK';
+              tile.classList.remove('bg-pink-500', 'hover:bg-pink-400');
+              tile.classList.add('bg-green-600', 'pulse');
+            } else {
+              tile.textContent = 'CASSÉ';
+              tile.classList.remove('bg-pink-500', 'hover:bg-pink-400');
+              tile.classList.add('bg-red-700', 'broken-glass');
+            }
+          });
+
+          // Surlignage au survol
+          tile.addEventListener('mouseenter', () => {
+            if (!gameStarted) {
+              tile.classList.add('selected-safe');
+            }
+          });
+
+          tile.addEventListener('mouseleave', () => {
+            tile.classList.remove('selected-safe');
+          });
+
+        } else if (row === 0 || row === 8) {
+          // Zones de départ et d'arrivée
+          tile.classList.add('bg-gray-700');
+          if (row === 0 && (col === 2 || col === 3)) {
+            tile.innerHTML = '<i class="fas fa-running text-red-400 text-xl"></i>';
+          }
+          if (row === 8 && (col === 2 || col === 3)) {
+            tile.innerHTML = '<i class="fas fa-flag-checkered text-green-400 text-xl"></i>';
+          }
+        } else {
+          // Bordures
+          tile.classList.add('bg-black');
+        }
+
+        grid.appendChild(tile);
+      }
+    }
+
+    // Mise à jour des tuiles sûres quand les cases sont cochées
+    safeTilesContainer.addEventListener('change', (e) => {
+      if (e.target.type === 'checkbox') {
+        const value = parseInt(e.target.value);
+
+        if (e.target.checked) {
+          if (!safeTileNumbers.includes(value)) {
+            safeTileNumbers.push(value);
+          }
+        } else {
+          safeTileNumbers = safeTileNumbers.filter(num => num !== value);
+        }
+
+        // Mettre à jour le visuel des tuiles
+        updateTileVisuals();
+      }
+    });
+
+    // Mise à jour visuelle des tuiles sûres
+    function updateTileVisuals() {
+      const glassTiles = document.querySelectorAll('[data-type="glass"]');
+
+      glassTiles.forEach(tile => {
+        const tileNum = parseInt(tile.dataset.tileNumber);
+        tile.classList.remove('selected-safe');
+
+        if (safeTileNumbers.includes(tileNum)) {
+          tile.classList.add('selected-safe');
+        }
+      });
+    }
+
+    // Initialiser l'affichage des tuiles sûres
+    updateTileVisuals();
+
+    // Démarrer le jeu
+    startButton.addEventListener('click', () => {
+      gameStarted = true;
+      startButton.disabled = true;
+      startButton.classList.remove('bg-red-600', 'hover:bg-red-700', 'hover:scale-105');
+      startButton.classList.add('bg-gray-600', 'cursor-not-allowed');
+      startButton.innerHTML = '<i class="fas fa-play mr-2"></i>JEU EN COURS';
+
+      // Masquer les numéros des tuiles
+      const tileNumbers = document.querySelectorAll('.tile-number');
+      tileNumbers.forEach(el => el.style.display = 'none');
+
+      // Retirer le surlignage des tuiles sûres
+      const glassTiles = document.querySelectorAll('[data-type="glass"]');
+      glassTiles.forEach(tile => tile.classList.remove('selected-safe'));
+
+      // Afficher un message
+      const message = document.createElement('div');
+      message.className = 'text-center text-green-400 font-bold mt-4 animate-pulse';
+      message.textContent = 'Le jeu a commencé ! Cliquez sur les tuiles pour avancer...';
+      document.querySelector('.bg-gray-800.p-6.rounded-lg').appendChild(message);
+    });
+  </script>
+</body>
+
+</html>
